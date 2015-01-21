@@ -24,13 +24,13 @@ variables <- read.table("./UCI HAR Dataset/features.txt")
 varnames <- c("Subject", "Activity", as.character(variables[,2]))
 names(data) <- varnames
 ## Create indeces for subsetting
-indexmean <- grep("*-mean(*", x=varnames)
-indexstd <- grep("*-std(*", x=varnames)
+indexmean <- grep("*-mean()-*", x=varnames)
+indexstd <- grep("*-std()-*", x=varnames)
 ## Subset
 data <- data[,sort(c(1, 2, indexmean, indexstd))]
 ## Adding labels to activity variable from activity_labels.txt
 act <- read.table("./UCI HAR Dataset/activity_labels.txt")
-data$Activity <- factor(data2$Activity, levels=1:6, labels=act[,2])
+data$Activity <- factor(data$Activity, levels=1:6, labels=act[,2])
 ## Compute the average of each variable for each subject and activity
 library(dplyr)
 by_subact <- group_by(data, Subject, Activity)
